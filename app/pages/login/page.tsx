@@ -1,11 +1,9 @@
 "use client";
 
-// login.tsx
+import React, { useState } from "react";
 import Link from "next/link";
-import React from "react";
-import { useEffect, useState } from "react";
 
-export const Login = () => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -88,6 +86,7 @@ export const Login = () => {
         </div>
 
         <button
+          type="submit"
           className="block mx-auto w-24 mt-8 px-3.5 py-2.5 text-center text-sm font-semibold text-black rounded-md shadow-sm hover:bg-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
           style={{ backgroundColor: "#6BD3C6" }}
         >
@@ -105,9 +104,11 @@ export const Login = () => {
       >
         <h1>
           Already have an account?{" "}
-          <a href="/pages/register">
-            <u>Register now.</u>
-          </a>
+          <Link href="/pages/register">
+            <a>
+              <u>Register now.</u>
+            </a>
+          </Link>
         </h1>
       </div>
     </div>
