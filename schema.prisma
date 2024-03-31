@@ -1,0 +1,104 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+// User table
+model User {
+  UserID      Int      @id @default(autoincrement())
+  Username    String
+  Password    String
+  Email       String
+  DateOfBirth DateTime
+
+  // Relationships
+  games     Game[]
+  comments  Comment[]
+  wishlists Wishlist[]
+  ratings   GameRating[]
+}
+
+// Game table
+model Game {
+  GameID      Int      @id @default(autoincrement())
+  Title       String
+  Description String?
+  ReleaseDate DateTime
+
+  // User relationship
+  User   User @relation(fields: [UserID], references: [UserID])
+  UserID Int
+
+  // Relationships
+  genres    Genre[]
+  comments  Comment[]
+  wishlists Wishlist[]
+  ratings   GameRating[]
+  GameGenre GameGenre[]
+}
+
+// Genre table
+model Genre {
+  GenreID   Int    @id @default(autoincrement())
+  GenreName String
+
+  // Relationships
+  games     Game[]
+  GameGenre GameGenre[]
+}
+
+// GameGenre table (Bridge table)
+model GameGenre {
+  GameID  Int
+  GenreID Int
+
+  // Relationships
+  game  Game  @relation(fields: [GameID], references: [GameID])
+  genre Genre @relation(fields: [GenreID], references: [GenreID])
+
+  // Composite primary key
+  @@id([GameID, GenreID])
+}
+
+// Comment table
+model Comment {
+  CommentID   Int      @id @default(autoincrement())
+  CommentText String
+  CommentDate DateTime
+  ParentID    Int?
+
+  // Relationships
+  game   Game @relation(fields: [GameID], references: [GameID])
+  GameID Int
+  user   User @relation(fields: [UserID], references: [UserID])
+  UserID Int
+}
+
+// Wishlist table
+model Wishlist {
+  WishlistID Int @id @default(autoincrement())
+
+  // Relationships
+  game   Game @relation(fields: [GameID], references: [GameID])
+  GameID Int
+  user   User @relation(fields: [UserID], references: [UserID])
+  UserID Int
+}
+
+// GameRating table
+model GameRating {
+  RatingID    Int @id @default(autoincrement())
+  RatingValue Int
+
+  // Relationships
+  game   Game @relation(fields: [GameID], references: [GameID])
+  GameID Int
+  user   User @relation(fields: [UserID], references: [UserID])
+  UserID Int
+}
