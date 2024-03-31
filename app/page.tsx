@@ -63,7 +63,7 @@ export default function Home() {
             <br></br>
             <span style={{ color: "#6bd3b6" }}>Genres</span>
           </div>
-          <p>"Browse the best collection of games our users like"</p>
+          <p>&quot;Browse the best collection of games our users like&quot;</p>
 
           {/* Button */}
           <div className="flex items-start ml-80">
@@ -160,7 +160,7 @@ export default function Home() {
           <div className="mt-20 flex h-full border-3 border-red-500">
             {/* Developer Image */}
             <div className="ml-60 flex-1">
-              <img
+              <Image
                 src={developer.src}
                 alt="Developer Image"
                 className="h-full w-auto"
@@ -173,9 +173,9 @@ export default function Home() {
                 <span style={{ color: "#6bd3b6" }}>Developers</span>
               </div>
               <p className="text-left mb-8">
-                "Discover what&apos;s new&quot;! Dive into the latest creations
-                from our developers. Visit now for an exciting
-                experience&quot;!"
+                &quot;Discover what&apos;s new&quot;! Dive into the latest
+                creations from our developers. Visit now for an exciting
+                experience&quot;!&quot;
               </p>
               <div className="flex justify-left">
                 <Link href="/developer-content">
