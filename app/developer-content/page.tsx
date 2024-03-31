@@ -14,8 +14,8 @@ export default function Dcontent() {
 
       <h2> Our Developers</h2>
       <p>
-        "Discover what`&apos;` new! Dive into the latest creations from our
-        developers. Visit now for an exciting experience!"
+        "Discover what`&apos;` new&quot;! Dive into the latest creations from
+        our developers. Visit now for an exciting experience&quot;!"
       </p>
       <p>Browse the best collection of games our users like</p>
     </main>

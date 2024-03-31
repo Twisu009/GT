@@ -173,8 +173,9 @@ export default function Home() {
                 <span style={{ color: "#6bd3b6" }}>Developers</span>
               </div>
               <p className="text-left mb-8">
-                "Discover what's new! Dive into the latest creations from our
-                developers. Visit now for an exciting experience!"
+                "Discover what&apos;s new&quot;! Dive into the latest creations
+                from our developers. Visit now for an exciting
+                experience&quot;!"
               </p>
               <div className="flex justify-left">
                 <Link href="/developer-content">
