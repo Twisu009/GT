@@ -2,36 +2,57 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-
+import { InfoModal } from "@/components/ui/info-modal";
+import { ErrorModal } from "@/components/ui/error-modal";
+import { ZodIssue } from "zod";
+import axios, { AxiosResponse } from "axios";
+import router from "next/router";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [infoMessage, setInfoMessage] = useState("");
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<{
+    message: string;
+    validationError?: ZodIssue[];
+  }>({
+    message: "",
+  });
+
+  const handleLoginSuccess = () => {
+    setIsInfoModalOpen(false); // Close the success modal
+    window.location.href = "/"; // Redirect to the home page
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("username:", username);
-    console.log("password:", password);
-
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: username,
-          password: password,
-        }),
+      const response: AxiosResponse<{
+        user: {
+          UserID: number;
+          Username: string;
+          Email: string;
+          DateOfBirth: Date;
+          token: string;
+        };
+      }> = await axios.post("/api/auth/login", {
+        email: username,
+        password: password,
       });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log("Login successful. Token:", data.token);
+      let data = response.data;
+      // save in local storage
+      setInfoMessage(`Success, Welcome ${data.user.Username}!`);
+      setIsInfoModalOpen(true);
     } catch (error) {
-      console.error("There was a problem with the login:", error);
+      if (axios.isAxiosError(error))
+        if ("error" in error?.response?.data) {
+          setErrorMessage({
+            message: error?.response?.data.error,
+            validationError: error?.response?.data.message,
+          });
+          setIsErrorModalOpen(true);
+        }
     }
   };
 
@@ -105,12 +126,22 @@ const Login = () => {
         <h1>
           Already have an account?{" "}
           <Link href="/pages/register">
-            <a>
-              <u>Register now.</u>
-            </a>
+            <u>Register now.</u>
           </Link>
         </h1>
       </div>
+      <InfoModal
+        isOpen={isInfoModalOpen}
+        setOpen={setIsInfoModalOpen}
+        message={infoMessage}
+        onOk={handleLoginSuccess}
+      />
+      <ErrorModal
+        isOpen={isErrorModalOpen}
+        setOpen={setIsErrorModalOpen}
+        message={errorMessage.message}
+        validationError={errorMessage.validationError}
+      />
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "next/image";
 
 const ReusableBanner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -29,7 +28,7 @@ const ReusableBanner = () => {
 
   return (
     <div className="relative w-full h-96 bg-teal-950 overflow-hidden">
-      <Image
+      <img
         src={bannerData[currentSlide].imageSrc}
         alt="Banner"
         className="w-full h-full object-cover"

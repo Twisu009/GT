@@ -1,4 +1,3 @@
-import { IRegister, ISignIn } from "@/app/Types/types";
 import {
   AuthenticationError,
   CustomError,
@@ -8,22 +7,20 @@ import { getPrismaInstance } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { generateToken } from "../../../backend/jwt";
 import { NextRequest } from "next/server";
-import { UserAuthSchema } from "./validation";
+import { ILogin, IRegister, UserAuthSchema } from "./validation";
 
-export async function signIn({ email, password }: ISignIn) {
+export async function signIn({ email, password }: ILogin) {
   let prisma = getPrismaInstance();
-
   let user = await prisma.user.findFirst({
     where: {
       Email: email,
     },
   });
-  if (user === null) throw new AuthenticationError();
+  if (user === null) throw new CustomError("User not found!", 400);
   let comparePassword = await comparePasswords(password, user.Password);
   if (!comparePassword) throw new AuthenticationError();
   const { Password, ...otherProperties } = user;
   let token = await generateToken({ userId: otherProperties.UserID });
-  console.log(token);
   return { token, ...otherProperties };
 }
 
@@ -78,8 +75,7 @@ export async function comparePasswords(
 
 export function getUserAuthData(req: NextRequest) {
   let userData = req.headers.get("user-auth");
-  if (userData) {
-    userData = JSON.parse(userData);
-    return UserAuthSchema.parse(userData);
-  }
+  if (!userData) throw new InternalServerError();
+  userData = JSON.parse(userData);
+  return UserAuthSchema.parse(userData);
 }

@@ -1,9 +1,19 @@
+"use client";
+
+import CommentSection from "@/components/ui/comments";
+
 export default function showcase() {
   return (
     <main>
-      <main>
-        <div>Add your games here!</div>
-      </main>
+      {/*----Posted content section----*/}
+      <div>
+        Add your games here!
+        <section>developer game content</section>
+      </div>
+
+      <div>
+        <CommentSection />
+      </div>
     </main>
   );
 }

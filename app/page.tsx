@@ -13,7 +13,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ReusableCard } from "@/components/ui/card";
-import { ReusableDeveloperContent } from "@/components/ui/developerContent";
+import { ReusableDeveloperContent } from "@/components/ui/developer-content";
 import { ReusableNewReleases } from "@/components/ui/new-releases";
 import { useState } from "react";
 
@@ -63,7 +63,7 @@ export default function Home() {
             <br></br>
             <span style={{ color: "#6bd3b6" }}>Genres</span>
           </div>
-          <p>&quot;Browse the best collection of games our users like&quot;</p>
+          <p>"Browse the best collection of games our users like"</p>
 
           {/* Button */}
           <div className="flex items-start ml-80">
@@ -85,22 +85,22 @@ export default function Home() {
           }}
         >
           <ReusableCard
-            cardLink="pages/genre/actions"
+            cardLink="pages/genre/action"
             text="Actions"
             imageSrc="/static/images/action.jpg"
           />
           <ReusableCard
-            cardLink="pages/genre/actions"
+            cardLink="pages/genre/adventure"
             text="Adventure"
             imageSrc="/static/images/adventure.jpg"
           />
           <ReusableCard
-            cardLink="pages/genre/actions"
+            cardLink="pages/genre/horror"
             text="Horror"
             imageSrc="/static/images/horror.jpg"
           />
           <ReusableCard
-            cardLink="pages/genre/actions"
+            cardLink="/pages/genre/multiplayer"
             text="Multi Player"
             imageSrc="/static/images/multi.jpg"
           />
@@ -160,7 +160,7 @@ export default function Home() {
           <div className="mt-20 flex h-full border-3 border-red-500">
             {/* Developer Image */}
             <div className="ml-60 flex-1">
-              <Image
+              <img
                 src={developer.src}
                 alt="Developer Image"
                 className="h-full w-auto"
@@ -173,9 +173,8 @@ export default function Home() {
                 <span style={{ color: "#6bd3b6" }}>Developers</span>
               </div>
               <p className="text-left mb-8">
-                &quot;Discover what&apos;s new&quot;! Dive into the latest
-                creations from our developers. Visit now for an exciting
-                experience&quot;!&quot;
+                "Discover what's new! Dive into the latest creations from our
+                developers. Visit now for an exciting experience!"
               </p>
               <div className="flex justify-left">
                 <Link href="/developer-content">

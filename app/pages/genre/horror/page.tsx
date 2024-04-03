@@ -10,7 +10,7 @@ const bannerData = [
   { imageSrc: "/static/images/banner3.jpg", description: "Puzzle" },
 ];
 
-const Adventure = () => {
+const Horror = () => {
   const [showAdditionalRow, setShowAdditionalRow] = useState(false);
 
   const toggleAdditionalRow = () => {
@@ -29,7 +29,7 @@ const Adventure = () => {
           <section title="New Releases">
             <div className="mt-40 text-center text-2xl font-bold mb-8">
               <h1>
-                <span style={{ color: "#10242C" }}>Adventure </span>
+                <span style={{ color: "#10242C" }}>Horror </span>
                 <span style={{ color: "#6bd3b6" }}>Category</span>
               </h1>
             </div>
@@ -75,4 +75,4 @@ const Adventure = () => {
   );
 };
 
-export default Adventure;
+export default Horror;

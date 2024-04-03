@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 
+// Mock authentication status
+const isAuthenticated = true; // shows logout when logged
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -21,7 +24,6 @@ export default function Header() {
           {isOpen ? (
             <svg
               className="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -36,7 +38,6 @@ export default function Header() {
           ) : (
             <svg
               className="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -53,15 +54,30 @@ export default function Header() {
         {/* Menu Links */}
         <nav className={`${isOpen ? "block" : "hidden"} lg:block lg:relative`}>
           <ul className="lg:flex lg:items-center lg:space-x-3 lg:space-y-0">
-            <li>
-              <Link href={"/pages/login"}>Login</Link>
-            </li>
-            <span>|</span>
-            <li>
-              <Link href={"/pages/register"} style={{ color: "#6BD3C6" }}>
-                Register
-              </Link>
-            </li>
+            {/* Conditionally rendersd login or logout based on authentication status */}
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link href="/">Home</Link>
+                </li>
+                <span>|</span>
+                <li>
+                  <Link href="/">Logout</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link href="/pages/login">Login</Link>
+                </li>
+                <span>|</span>
+                <li>
+                  <Link href="/pages/register" style={{ color: "#6BD3C6" }}>
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>

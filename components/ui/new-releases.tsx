@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export const ReusableNewReleases = ({
   NewReleasescardLink = "",
   imageSrc = "",
@@ -7,10 +5,9 @@ export const ReusableNewReleases = ({
 }) => {
   return (
     <div className="relative border-2 border-black-800 h-[300px] w-[300px] overflow-hidden m-2">
-      <Image
+      <img
         src={imageSrc || "/static/images/developer.png"}
         className="absolute inset-0"
-        alt={""}
       />
       <a
         href={NewReleasescardLink}

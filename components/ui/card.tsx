@@ -1,14 +1,11 @@
-import Image from "next/image";
-
 export const ReusableCard = ({ cardLink = "", imageSrc = "", text = "" }) => {
   return (
     <div style={{ display: "flex" }}>
-      <div className="relative scrollbar border-2 border-black-800 h-[250px] w-[250px] overflow-hidden m-2">
-        <Image
+      <div className="relative border-2 border-black-800 h-[250px] w-[250px] overflow-hidden m-2">
+        <img
           src={imageSrc || "/static/images/developer.png"}
           className="absolute inset-0 "
-          alt={""}
-        ></Image>
+        ></img>
         <a
           href={cardLink}
           className="absolute bottom-0 left-0 right-0 bg-slate-900 h-[50px] text-white opacity-80 text-center"
