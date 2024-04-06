@@ -24,5 +24,9 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 }
 
 export const config = {
-  matcher: "/api/protected/:path*",
+  matcher: [
+    "/api/genre/protected/:path*",
+    "/api/game/protected/:path*",
+    "/api/wishlist/protected/:path*",
+  ],
 };
