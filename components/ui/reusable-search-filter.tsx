@@ -21,10 +21,10 @@ export function ReusableSearchFilter<T extends FieldValues>({
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div>
+          <div className="flex justify-center mt-20">
             {children}
-            <button className="bg-transparent text-teal-700 font-semibold py-2 px-4 border border-teal-400 rounded transition-colors duration-300 hover:bg-cyan-950 hover:text-white hover:border-transparent flex items-center">
-              <FaSearch style={{ color: "#6bd3b6", fontSize: "1.5rem" }} />
+            <button className="bg-transparent text-teal-950 font-semibold py-2 px-4 transition-colors duration-300 hover:text-teal-400">
+              <FaSearch style={{ fontSize: "1.5rem" }} />
               <span style={{ color: "#10242C" }}></span>
             </button>
           </div>

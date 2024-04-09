@@ -16,6 +16,8 @@ import { ReusableCard } from "@/components/ui/card";
 import { ReusableDeveloperContent } from "@/components/ui/developer-content";
 import { ReusableNewReleases } from "@/components/ui/new-releases";
 import { useState } from "react";
+import { Link2Off } from "lucide-react";
+import ReusableBanner from "@/components/ui/banner-main";
 
 //currently working
 export default function Home() {
@@ -29,26 +31,24 @@ export default function Home() {
       {/*----Banner section----*/}
       <div className="w-full h-96 bg-banner-bg bg-center">
         <div className="relative banner w-full h-96">
-          <Image
-            src={"/static/images/banner.jpg"}
-            alt="banner"
-            layout="fill"
-            objectFit="cover"
-            className="full"
-          />
+          <ReusableBanner />
           <div className="absolute top-1/2 right-4 transform -translate-y-1/2 text-right">
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            <h2 className="text-3xl font-bold text-slate-300 mb-2">
               Discover, Play, Repeat
             </h2>
-            <p className="text-lg text-gray-600 mb-4">
+            <p className="text-lg text-gray-400 mb-4">
               Your Game Oasis - Welcome to G-Trove
             </p>
+
             <Link href="/pages/AboutUs">
-              <button className="btn-genres bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark">
+              <button className="bg-cyan-950 text-slate-100 font-semibold py-2 px-4 border border-teal-950 rounded transition-colors duration-300 hover:bg-transparent hover:text-teal-300 hover:border-transparent">
                 Learn More
               </button>
             </Link>
           </div>
+          {/* <button className="bg-cyan-950 text-slate-100 font-semibold py-2 px-4 border border-teal-950 rounded transition-colors duration-300 hover:bg-transparent hover:text-teal-300 hover:border-transparent">
+            Learn More
+          </button> */}
         </div>
       </div>
       <br></br>
@@ -190,114 +190,3 @@ export default function Home() {
     </main>
   );
 }
-
-// export default function Home() {
-//   return (
-//     <main>
-//       {/*----Banner section----*/}
-//       <div className="w-full h-96 bg-banner-bg bg-center">
-//         <div className="relative banner w-full h-96">
-//           <Image
-//             src={"/static/images/banner.jpg"}
-//             alt="banner"
-//             layout="fill"
-//             objectFit="cover"
-//             className="rounded-lg"
-//           />
-//           <div className="absolute top-1/2 right-4 transform -translate-y-1/2 text-right">
-//             <h2 className="text-3xl font-bold text-gray-800 mb-2">
-//               Discover, Play, Repeat
-//             </h2>
-//             <p className="text-lg text-gray-600 mb-4">
-//               Your Game Oasis - Welcome to G-Trove
-//             </p>
-//             <Link href="/pages/AboutUs">
-//               <button className="btn-genres bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark">
-//                 Learn More
-//               </button>
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//       <br></br>
-//       <br></br>
-//       {/* ----Genre section----*/}
-//       <div className="flex flex-col md:flex-row justify-center">
-//         {/* Left side content */}
-//         <div className="md:w-1/3 pl-150 ml-20 bg-red-500">
-//           {/* Title */}
-//           <div className="flex items-center">
-//             <span className="text-black-500 text-2xl font-bold">Best</span>
-//           </div>
-
-//           <div className="flex items-center mt-1">
-//             <span className="text-gray-700 text-2xl font-bold ml-2">
-//               Genres
-//             </span>
-//             <hr className="border-t border-gray-300 w-1/3 my-2" />
-//           </div>
-//           {/* Description */}
-//           <p className="text-gray-500 mt-4">
-//             Browse the best collection of games our users like
-//           </p>
-//           {/* Button */}
-//           <div className="flex items-center mt-4">
-//             <Link href="/">
-//               {/* This page won't take anywhere, it will show a popup */}
-//               <button className="btn-genres rounded-lg bg-blue-500 text-white py-2 px-4">
-//                 See All
-//               </button>
-//             </Link>
-//           </div>
-//         </div>
-
-//         {/* Right side content */}
-//         <div className=" md:w-2/3 p-1">
-//           {/* Title */}
-//           <h2 className="text-2xl font-bold"></h2>
-//           {/* Container for game cards */}
-//           <Carousel className="w-full max-w-xl">
-//             <CarouselContent>
-//               {Array.from({ length: 5 }).map((_, index) => (
-//                 <CarouselItem className="basis-1/4" key={index}>
-//                   <div className="p-1">
-//                     <Card>
-//                       <CardContent className="flex aspect-square items-center justify-center p-6">
-//                         <span className="text-3xl font-semibold">
-//                           {index + 1}
-//                         </span>
-//                       </CardContent>
-//                     </Card>
-//                   </div>
-//                 </CarouselItem>
-//               ))}
-//             </CarouselContent>
-//             <CarouselPrevious />
-//             <CarouselNext />
-//           </Carousel>
-//         </div>
-//       </div>
-//       <br></br>
-//       <br></br>
-//       {/*----Dcontent section----*/}
-//       <h2>New Releases</h2>
-//       <div className="Dcontent-addWork">
-//         <Link href="/pages/AboutUs">
-//           <button className="btn-newReleases rounded-lg ">See All</button>
-//         </Link>
-//       </div>
-//       <br></br>
-//       <br></br>
-//       <h2> Our Developers</h2>
-//       <p>
-//         "Discover what`&apos;` new! Dive into the latest creations from our
-//         developers. Visit now for an exciting experience!"
-//       </p>
-//       <div className="Dcontent">
-//         <Link href="/developer-content">
-//           <button className="btn-primary rounded-lg ">Visit</button>
-//         </Link>
-//       </div>
-//     </main>
-//   );
-// }

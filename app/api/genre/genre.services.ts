@@ -36,6 +36,7 @@ export async function getManyGenres(dto: IQueryDto) {
     where: {
       GenreName: {
         contains: value,
+        mode: "insensitive",
       },
     },
   });
@@ -43,6 +44,7 @@ export async function getManyGenres(dto: IQueryDto) {
     where: {
       GenreName: {
         contains: value,
+        mode: "insensitive",
       },
     },
   });

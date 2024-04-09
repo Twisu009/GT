@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormField,
@@ -10,6 +9,7 @@ import {
 import ReusableGenreBox from "@/components/ui/genre-box";
 import { Input } from "@/components/ui/input";
 import { ReusableSearchFilter } from "@/components/ui/reusable-search-filter";
+import ReusableSpinner from "@/components/ui/spinner";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -38,7 +38,10 @@ export default function Genre() {
     results: [],
     total: 0,
   });
+
   const [isLoadMore, setIsLoadMore] = useState(false);
+  const [loading, setLoading] = useState(false); //spinner
+
   const handleSearch = (query: FormValues) => {
     query.skip = 0;
     query.count = 10;
@@ -56,9 +59,11 @@ export default function Genre() {
   };
 
   const callGenres = async (query: FormValues, isMore = false) => {
+    setLoading(true); //for spinner when loading starts
     let genres: AxiosResponse<IGenreList> = await axios("/api/genre", {
       params: query,
     });
+    setLoading(false); //spinner wont show when genres are loaded
     if (genres.data.total > query.skip + query.count) {
       setIsLoadMore(true);
     } else {
@@ -79,6 +84,7 @@ export default function Genre() {
     let query = form.getValues();
     callGenres(query);
   }, []);
+
   return (
     <main className="flex-col justify-center items-center h-screen">
       <div>
@@ -93,7 +99,7 @@ export default function Genre() {
                     <Input
                       placeholder="search genre..."
                       {...field}
-                      className="w-200"
+                      className="w-full"
                     />
                   </FormControl>
 
@@ -115,8 +121,15 @@ export default function Genre() {
         </ReusableSearchFilter>
       </div>
 
+      {/* Spinner */}
+      {loading && (
+        <div className="mt-40 relative flex justify-center items-center">
+          {loading && <ReusableSpinner />}
+        </div>
+      )}
+
       {/* Genre boxes section */}
-      <div className="container mx-auto mt-20">
+      <div className="container mx-auto mt-14">
         <div className="flex flex-wrap justify-center">
           {/* Renders GenreBox component for each genre */}
           {genreList.results.map((value) => (
@@ -128,10 +141,22 @@ export default function Genre() {
           ))}
         </div>
       </div>
-      {isLoadMore && <Button onClick={loadMore}>Load more...</Button>}
-      <div className="text-center items-center container mx-auto">
+      <br></br>
+      <div className="flex justify-center text-center items-center container mx-auto">
         Total Available:{genreList.total}
       </div>
+      <br></br>
+      <div className="flex justify-center">
+        {isLoadMore && (
+          <button
+            className="bg-transparent text-teal-950 font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:text-teal-400 hover:border-teal-950 flex items-center"
+            onClick={loadMore}
+          >
+            Load more...
+          </button>
+        )}
+      </div>
+      <br></br>
     </main>
   );
 }

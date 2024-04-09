@@ -30,6 +30,7 @@ model Game {
   Title       String
   Description String?
   ReleaseDate DateTime
+  ImageUrl    String?
 
   // User relationship
   User   User @relation(fields: [UserID], references: [UserID])
@@ -47,6 +48,7 @@ model Game {
 model Genre {
   GenreID   Int    @id @default(autoincrement())
   GenreName String
+  ImageUrl  String?
 
   // Relationships
   games     Game[]

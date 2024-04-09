@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { handleError } from "@/backend/error/error-handler";
-import { QueryDtoSchema } from "@/backend/dto/query.dto";
 import { getManyGames } from "./games.services";
 import { queryFormatter } from "@/backend/query-formatter";
 import { GameQuerySchema } from "./validation";
