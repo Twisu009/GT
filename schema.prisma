@@ -1,3 +1,4 @@
+
 // schema.prisma
 
 generator client {
@@ -48,7 +49,7 @@ model Game {
 model Genre {
   GenreID   Int    @id @default(autoincrement())
   GenreName String
-  ImageUrl  String?
+  ImageUrl    String?
 
   // Relationships
   games     Game[]

@@ -61,7 +61,7 @@ const Horror = () => {
             {/* Button to toggle additional row */}
             <div className="mt-10 flex justify-center">
               <button
-                className="bg-transparent text-teal-700 font-semibold py-2 px-4 border border-teal-400 rounded transition-colors duration-300 hover:bg-cyan-950 hover:text-white hover:border-transparent"
+                className="bg-transparent text-teal-700 font-semibold py-2 px-4 border border-custom-teal rounded transition-colors duration-300 hover:bg-cyan-950 hover:text-white hover:border-transparent"
                 onClick={toggleAdditionalRow}
               >
                 <span style={{ color: "#10242C" }}>See </span>

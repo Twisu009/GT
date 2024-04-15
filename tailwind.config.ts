@@ -10,9 +10,6 @@ const config = {
   ],
   prefix: "",
   theme: {
-    backgroundImage: {
-      "banner-bg": "url('../public/static/images/banner.jpg)",
-    },
     container: {
       center: true,
       padding: "2rem",
@@ -21,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        "custom-blue-green": "#050c0f",
+        "custom-teal": "#6BD3C6",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

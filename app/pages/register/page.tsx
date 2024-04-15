@@ -62,7 +62,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-custom-blue-green text-white">
       <div
         style={{
           display: "flex",
@@ -80,7 +80,7 @@ const Register = () => {
           <div>
             <label
               htmlFor="username"
-              className="align-center text-sm font-semibold leading-6 text-gray-900"
+              className="align-center text-sm font-normal leading-6 text-slate-100"
             >
               Username
             </label>
@@ -90,13 +90,13 @@ const Register = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
+              className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="email"
-              className="align-center text-sm font-semibold leading-6 text-gray-900"
+              className="align-center text-sm font-normal leading-6 text-slate-100"
             >
               Email
             </label>
@@ -106,13 +106,13 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
+              className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="dob"
-              className="align-center text-sm font-semibold leading-6 text-gray-900"
+              className="align-center text-sm font-normal leading-6 text-slate-100"
             >
               Date of Birth
             </label>
@@ -122,13 +122,13 @@ const Register = () => {
               value={dob}
               onChange={(e) => setDob(e.target.value)}
               required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
+              className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="align-center text-sm font-normal leading-6 text-slate-100"
             >
               Password
             </label>
@@ -138,7 +138,7 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
+              className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
             />
           </div>
         </div>
@@ -162,7 +162,7 @@ const Register = () => {
         <h1>
           Already have an account?{" "}
           <Link href="/pages/login">
-            <u>Login now.</u>
+            <u className="hover:text-teal-300">Login now.</u>
           </Link>
         </h1>
       </div>

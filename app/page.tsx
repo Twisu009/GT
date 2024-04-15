@@ -41,7 +41,7 @@ export default function Home() {
             </p>
 
             <Link href="/pages/AboutUs">
-              <button className="bg-cyan-950 text-slate-100 font-semibold py-2 px-4 border border-teal-950 rounded transition-colors duration-300 hover:bg-transparent hover:text-teal-300 hover:border-transparent">
+              <button className="bg-custom-blue-green text-slate-100 font-semibold py-2 px-4 border border-custom-blue-green rounded transition-colors duration-300 hover:bg-transparent hover:text-custom-teal hover:border-transparent">
                 Learn More
               </button>
             </Link>
@@ -59,7 +59,7 @@ export default function Home() {
         {/* Text and Button */}
         <div className="flex-0 flex flex-col justify-left mr-10">
           <div className="mb-8 text-2xl font-bold">
-            <span style={{ color: "#10242C" }}>Best </span>
+            <span style={{ color: "#071013" }}>Best </span>
             <br></br>
             <span style={{ color: "#6bd3b6" }}>Genres</span>
           </div>
@@ -70,7 +70,7 @@ export default function Home() {
             <Link href="/pages/genre">
               <button className="mt-4 font-bold btn-genres rounded-lg">
                 <span style={{ color: "#6bd3b6" }}>See </span>
-                <span style={{ color: "#10242C" }}>All</span>
+                <span style={{ color: "#071013" }}>All</span>
               </button>
             </Link>
           </div>
@@ -112,7 +112,7 @@ export default function Home() {
         <section title="New Releases">
           <div className="mt-40 text-center text-2xl font-bold mb-8">
             <h1>
-              <span style={{ color: "#10242C" }}>New </span>
+              <span style={{ color: "#071013" }}>New </span>
               <span style={{ color: "#6bd3b6" }}>Releases</span>
             </h1>
           </div>
@@ -144,10 +144,10 @@ export default function Home() {
           {/* Button to toggle additional row */}
           <div className="mt-10 flex justify-center">
             <button
-              className="bg-transparent text-teal-700 font-semibold py-2 px-4 border border-teal-400 rounded transition-colors duration-300 hover:bg-cyan-950 hover:text-white hover:border-transparent"
+              className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border border-custom-teal rounded transition-colors duration-300 hover:bg-custom-blue-green hover:text-white hover:border-transparent"
               onClick={toggleAdditionalRow}
             >
-              <span style={{ color: "#10242C" }}>See </span>
+              <span style={{ color: "#071013" }}>See </span>
               <span style={{ color: "#6bd3b6" }}>All</span>
             </button>
           </div>
@@ -157,7 +157,7 @@ export default function Home() {
       {/*Developer content section*/}
       <div>
         <section title="Developer Contents">
-          <div className="mt-20 flex h-full border-3 border-red-500">
+          <div className="mt-20 flex h-full">
             {/* Developer Image */}
             <div className="ml-60 flex-1">
               <img
@@ -169,7 +169,7 @@ export default function Home() {
             {/* Text and Button */}
             <div className="mb-10 flex-1 flex flex-col justify-center">
               <div className="text-left text-2xl font-bold mb-4">
-                <span style={{ color: "#10242C" }}>Our </span>
+                <span style={{ color: "#071013" }}>Our </span>
                 <span style={{ color: "#6bd3b6" }}>Developers</span>
               </div>
               <p className="text-left mb-8">
@@ -178,7 +178,7 @@ export default function Home() {
               </p>
               <div className="flex justify-left">
                 <Link href="/developer-content">
-                  <button className="bg-cyan-950 text-slate-100 font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:bg-transparent hover:text-cyan-950 hover:border-teal-400">
+                  <button className="bg-custom-blue-green text-slate-100 font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:bg-transparent hover:text-custom-blue-green hover:border-custom-teal">
                     Visit
                   </button>
                 </Link>

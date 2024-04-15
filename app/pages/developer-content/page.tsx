@@ -57,14 +57,14 @@ export default function Dcontent() {
           {/* Button to toggle additional row */}
           <div className="mt-10 flex justify-center">
             <Link href={"/developer-content/update-page"}>
-              <button className="bg-transparent text-teal-700 font-semibold py-2 px-4 border border-teal-400 rounded transition-colors duration-300 hover:bg-cyan-950 hover:text-white hover:border-transparent">
+              <button className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border border-custom-teal rounded transition-colors duration-300 hover:bg-custom-blue-green hover:text-custom-teal hover:border-transparent">
                 <span style={{ color: "#6bd3b6" }}>Update</span>
               </button>
             </Link>
 
             <div className="ml-5">
               <Link href="/developer-content/Showcase">
-                <button className="bg-transparent text-teal-700 font-semibold py-2 px-4 border border-teal-400 rounded transition-colors duration-300 hover:bg-cyan-950 hover:text-white hover:border-transparent flex items-center">
+                <button className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border border-custom-teal rounded transition-colors duration-300 hover:bg-custom-blue-green hover:text-white hover:border-transparent flex items-center">
                   <FaPlus style={{ color: "#6bd3b6", fontSize: "1.5rem" }} />
                   <span style={{ color: "#6bd3b6" }}></span>
                 </button>

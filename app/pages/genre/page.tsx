@@ -149,7 +149,7 @@ export default function Genre() {
       <div className="flex justify-center">
         {isLoadMore && (
           <button
-            className="bg-transparent text-teal-950 font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:text-teal-400 hover:border-teal-950 flex items-center"
+            className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:text-custom-teal hover:border-custom-blue-green flex items-center"
             onClick={loadMore}
           >
             Load more...

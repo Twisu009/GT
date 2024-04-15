@@ -23,9 +23,9 @@ export function ReusableSearchFilter<T extends FieldValues>({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="flex justify-center mt-20">
             {children}
-            <button className="bg-transparent text-teal-950 font-semibold py-2 px-4 transition-colors duration-300 hover:text-teal-400">
+            <button className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 transition-colors duration-300 hover:text-custom-teal">
               <FaSearch style={{ fontSize: "1.5rem" }} />
-              <span style={{ color: "#10242C" }}></span>
+              <span style={{ color: "#071013" }}></span>
             </button>
           </div>
         </form>

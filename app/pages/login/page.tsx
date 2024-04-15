@@ -6,7 +6,6 @@ import { InfoModal } from "@/components/ui/info-modal";
 import { ErrorModal } from "@/components/ui/error-modal";
 import { ZodIssue } from "zod";
 import axios, { AxiosResponse } from "axios";
-import router from "next/router";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -57,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-custom-blue-green text-white">
       <div
         style={{
           display: "flex",
@@ -75,7 +74,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="username"
-              className="align-center text-sm font-semibold leading-6 text-gray-900"
+              className="align-center text-sm font-normal leading-6 text-slate-100"
             >
               Username
             </label>
@@ -85,13 +84,13 @@ const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
+              className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="align-center text-sm font-normal leading-6 text-slate-100"
             >
               Password
             </label>
@@ -101,7 +100,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
+              className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
             />
           </div>
         </div>
@@ -126,7 +125,7 @@ const Login = () => {
         <h1>
           Already have an account?{" "}
           <Link href="/pages/register">
-            <u>Register now.</u>
+            <u className="hover:text-teal-300">Register now.</u>
           </Link>
         </h1>
       </div>

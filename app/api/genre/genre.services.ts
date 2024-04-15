@@ -8,6 +8,7 @@ export async function createGenre(dto: ICreateGenre) {
   let genre = await prisma.genre.create({
     data: {
       GenreName: dto.name,
+      ImageUrl: dto.mediaUrl,
     },
   });
   return genre;
@@ -22,6 +23,8 @@ export async function updateGenre(dto: IUpdateGenre) {
   });
   if (!genre) throw new NotFoundError("Genre not found!");
   genre.GenreName = dto.name;
+  genre.ImageUrl = dto.mediaUrl;
+
   return await prisma.genre.update({
     where: { GenreID: dto.id },
     data: { ...genre },

@@ -6,6 +6,7 @@ export const CreateGameSchema = z.object({
   releaseDate: z.coerce.date(),
   userId: z.number(),
   genres: z.array(z.number()),
+  mediaUrl: z.string().optional().default(""),
 });
 
 export type ICreateGame = z.infer<typeof CreateGameSchema>;

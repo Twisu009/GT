@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function AboutUs() {
   return (
-    <div className="min-h-screen bg-teal-950 text-white">
+    <div className="min-h-screen bg-custom-blue-green text-white">
       <div className="container mx-auto py-12">
         <div className="flex flex-col md:flex-row justify-center items-center">
           <div className="md:w-1/2 md:pr-8 mb-8 md:mb-0">
@@ -21,7 +21,7 @@ export default function AboutUs() {
               games that inspire, challenge, and entertain.
             </p>
             <div className="mt-8">
-              <button className="bg-teal-950 text-teal-400 font-semibold py-2 px-4 border rounded border-transparent transition-all duration-300 hover:text-slate-100 hover:border-teal-300 flex items-center">
+              <button className="bg-custom-blue-green text-custom-teal font-semibold py-2 px-4 border rounded border-transparent transition-all duration-300 hover:text-slate-100 hover:border-custom-teal flex items-center">
                 Back to browsing games
               </button>
             </div>
