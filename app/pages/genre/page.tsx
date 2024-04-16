@@ -135,6 +135,7 @@ export default function Genre() {
           {genreList.results.map((value) => (
             <ReusableGenreBox
               key={value.GenreID}
+              id={value.GenreID}
               genre={value.GenreName}
               imageSrc={""}
             />

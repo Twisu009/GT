@@ -6,6 +6,11 @@ import { InfoModal } from "@/components/ui/info-modal";
 import { ErrorModal } from "@/components/ui/error-modal";
 import { ZodIssue } from "zod";
 import axios, { AxiosResponse } from "axios";
+import {
+  UserLogin,
+  saveUserDetailsInLocalStorage,
+} from "@/utilities/local-storage";
+import { postRequest } from "@/utilities/https";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,20 +32,16 @@ const Login = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response: AxiosResponse<{
-        user: {
-          UserID: number;
-          Username: string;
-          Email: string;
-          DateOfBirth: Date;
-          token: string;
-        };
-      }> = await axios.post("/api/auth/login", {
-        email: username,
-        password: password,
-      });
+      const response = await postRequest<{ user: UserLogin }>(
+        "/api/auth/login",
+        {
+          email: username,
+          password: password,
+        }
+      );
       let data = response.data;
       // save in local storage
+      saveUserDetailsInLocalStorage(data.user);
       setInfoMessage(`Success, Welcome ${data.user.Username}!`);
       setIsInfoModalOpen(true);
     } catch (error) {

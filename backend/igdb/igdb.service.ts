@@ -191,6 +191,8 @@ export const getCoverUrl = async (coverIds: number[], token: string) => {
   }
 };
 
+//the process of fetching game data from the IGDB API, processing it,
+//and saving it to the local database
 export const importGames = async () => {
   let tokenDetails = await getToken();
   if (tokenDetails) {

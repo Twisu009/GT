@@ -4,10 +4,11 @@ export const ReusableNewReleases = ({
   text = "",
 }) => {
   return (
-    <div className="relative border-2 border-black-800 h-[300px] w-[300px] overflow-hidden m-2">
+    <div className="relative border-2 border-black-800 h-[300px] w-[300px] overflow-hidden m-2 hover:scale-110 hover:cursor-pointer">
       <img
         src={imageSrc || "/static/images/developer.png"}
-        className="absolute inset-0"
+        className="absolute inset-0 h-full w-full object-cover"
+        alt="img"
       />
       <a
         href={NewReleasescardLink}

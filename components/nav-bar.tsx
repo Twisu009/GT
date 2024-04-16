@@ -14,25 +14,10 @@ const Navbar = () => {
   //alert
   const [showLoginAlert, setShowLoginAlert] = useState(false);
 
-  // Function to fetch user ID from server
-  const fetchUserId = async () => {
-    try {
-      const response = await axios.get("/api/user");
-      setUserId(response.data.userId);
-    } catch (error) {
-      console.error("Error fetching user ID:", error);
-    }
-  };
-
   // Function to toggle wishlist visibility
   const toggleWishlist = () => {
     setShowWishlist(!showWishlist); // manages wishlist popup visibility
   };
-
-  // Used to fetch user ID when component mounts
-  useEffect(() => {
-    fetchUserId();
-  }, []);
 
   const toggleNavbar = () => {
     setisClick(!isClick);
@@ -99,7 +84,7 @@ const Navbar = () => {
                 )} */}
               </div>
               <a
-                href="/developer-content"
+                href="/pages/developer-content"
                 className="text-black hover:bg-grey hover:text-black rounded-lg"
               >
                 Developer Content

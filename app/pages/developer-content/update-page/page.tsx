@@ -4,7 +4,7 @@ import React from "react";
 function Update() {
   return (
     <main>
-      <div>This is where developers update</div>
+      <div>This is where developers update make </div>
       <div>
         <CommentSection />
       </div>
