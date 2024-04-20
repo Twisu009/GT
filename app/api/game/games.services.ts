@@ -1,5 +1,12 @@
 import { getPrismaInstance } from "@/lib/prisma";
-import { ICreateGame, IGameQuery, IUpdateGame } from "./validation";
+import {
+  ICreateGame,
+  IGameQuery,
+  IGameRating,
+  IGameRatingQuery,
+  IGameRatingUserSchema,
+  IUpdateGame,
+} from "./validation";
 import { CustomError, NotFoundError } from "@/backend/error/error";
 
 export async function getOneGame(id: number) {
@@ -35,6 +42,7 @@ export async function getManyGames(dto: IGameQuery) {
     where: {
       Title: {
         contains: value,
+        mode: "insensitive",
       },
       UserID: {
         in: userIds,
@@ -52,6 +60,7 @@ export async function getManyGames(dto: IGameQuery) {
     where: {
       Title: {
         contains: value,
+        mode: "insensitive",
       },
       UserID: {
         in: userIds,
@@ -70,7 +79,30 @@ export async function getManyGames(dto: IGameQuery) {
     total,
   };
 }
-
+export async function getNewReleasesGames() {
+  let prisma = getPrismaInstance();
+  let genres = await prisma.game.findMany({
+    take: 20,
+    include: {
+      GameGenre: {
+        include: {
+          genre: true,
+        },
+      },
+    },
+    where: {
+      ImageUrl: {
+        not: "",
+      },
+    },
+    orderBy: {
+      ReleaseDate: "desc",
+    },
+  });
+  return {
+    results: genres,
+  };
+}
 export async function createGame(dto: ICreateGame) {
   let prisma = getPrismaInstance();
   let game = await prisma.game.create({
@@ -79,6 +111,7 @@ export async function createGame(dto: ICreateGame) {
       Description: dto.description,
       ReleaseDate: dto.releaseDate,
       UserID: dto.userId,
+      ImageUrl: dto.mediaUrl,
     },
   });
   let genresFiltered = Array.from(new Set(dto.genres));
@@ -108,6 +141,7 @@ export async function updateGame(dto: IUpdateGame) {
   game.Title = dto.title;
   game.ReleaseDate = dto.releaseDate;
   game.Description = dto.description;
+  game.ImageUrl = dto.mediaUrl;
   let genresFiltered = Array.from(new Set(dto.genres));
   //delete previous genres
   await prisma.gameGenre.deleteMany({
@@ -130,4 +164,51 @@ export async function updateGame(dto: IUpdateGame) {
   return {
     ...game,
   };
+}
+
+export async function addGameRating(dto: IGameRating) {
+  let prisma = getPrismaInstance();
+  let prevRating = await prisma.gameRating.findFirst({
+    where: {
+      GameID: dto.gameId,
+      UserID: dto.userId,
+    },
+  });
+  if (prevRating) throw new CustomError("Already rated by user!", 400);
+  return await prisma.gameRating.create({
+    data: {
+      GameID: dto.gameId,
+      RatingValue: dto.rating,
+      UserID: dto.userId,
+    },
+  });
+}
+
+export async function getGameRatingByUser(dto: IGameRatingUserSchema) {
+  let prisma = getPrismaInstance();
+  let rating = await prisma.gameRating.findFirst({
+    where: {
+      UserID: dto.userId,
+      GameID: dto.gameId,
+    },
+  });
+  if (!rating) throw new CustomError("No rating found", 400);
+  return rating;
+}
+
+export async function getGameRating(dto: IGameRatingQuery) {
+  let { gameIds } = dto;
+  let prisma = getPrismaInstance();
+  let results = await prisma.gameRating.groupBy({
+    by: ["GameID"],
+    where: {
+      GameID: {
+        in: gameIds,
+      },
+    },
+    _avg: {
+      RatingValue: true,
+    },
+  });
+  return results;
 }

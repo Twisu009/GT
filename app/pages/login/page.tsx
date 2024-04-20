@@ -6,7 +6,13 @@ import { InfoModal } from "@/components/ui/info-modal";
 import { ErrorModal } from "@/components/ui/error-modal";
 import { ZodIssue } from "zod";
 import axios, { AxiosResponse } from "axios";
-import router from "next/router";
+import {
+  UserLogin,
+  saveUserDetailsInLocalStorage,
+} from "@/utilities/local-storage";
+import { postRequest } from "@/utilities/https";
+import { useLoading } from "@/components/loading/LoadingContext";
+import LoadingUI from "@/components/loading/Loading";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +25,7 @@ const Login = () => {
   }>({
     message: "",
   });
+  const { loading, setLoading } = useLoading();
 
   const handleLoginSuccess = () => {
     setIsInfoModalOpen(false); // Close the success modal
@@ -27,21 +34,18 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     try {
-      const response: AxiosResponse<{
-        user: {
-          UserID: number;
-          Username: string;
-          Email: string;
-          DateOfBirth: Date;
-          token: string;
-        };
-      }> = await axios.post("/api/auth/login", {
-        email: username,
-        password: password,
-      });
+      const response = await postRequest<{ user: UserLogin }>(
+        "/api/auth/login",
+        {
+          email: username,
+          password: password,
+        }
+      );
       let data = response.data;
       // save in local storage
+      saveUserDetailsInLocalStorage(data.user);
       setInfoMessage(`Success, Welcome ${data.user.Username}!`);
       setIsInfoModalOpen(true);
     } catch (error) {
@@ -53,83 +57,94 @@ const Login = () => {
           });
           setIsErrorModalOpen(true);
         }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: "200px",
-          color: "#6BD3C6",
-          fontSize: "1.5rem",
-        }}
-      >
-        <h1>User Login</h1>
-      </div>
-      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
-        <div className="grid grid-cols-1 gap-y-6">
-          <div>
-            <label
-              htmlFor="username"
-              className="align-center text-sm font-semibold leading-6 text-gray-900"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
-            />
+    <div className="min-h-screen bg-custom-blue-green text-white">
+      {loading ? (
+        <LoadingUI />
+      ) : (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              paddingTop: "200px",
+              color: "#6BD3C6",
+              fontSize: "1.5rem",
+            }}
+          >
+            <h1>User Login</h1>
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="block w-full border-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 sm:text-sm"
-            />
-          </div>
-        </div>
+          <form
+            onSubmit={handleSubmit}
+            className="mx-auto mt-16 max-w-xl sm:mt-20"
+          >
+            <div className="grid grid-cols-1 gap-y-6">
+              <div>
+                <label
+                  htmlFor="username"
+                  className="align-center text-sm font-normal leading-6 text-slate-100"
+                >
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-custom-teal placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="align-center text-sm font-normal leading-6 text-custom-teal"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="bg-transparent w-full border-b border-gray-300 focus:border-indigo-600 px-3.5 py-2 text-custom-teal placeholder-gray-400 focus:outline-none focus:border-teal-600 sm:text-sm"
+                />
+              </div>
+            </div>
 
-        <button
-          type="submit"
-          className="block mx-auto w-24 mt-8 px-3.5 py-2.5 text-center text-sm font-semibold text-black rounded-md shadow-sm hover:bg-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
-          style={{ backgroundColor: "#6BD3C6" }}
-        >
-          Login
-        </button>
-      </form>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: "50px",
-          //color: "#6BD3C6",
-        }}
-      >
-        <h1>
-          Already have an account?{" "}
-          <Link href="/pages/register">
-            <u>Register now.</u>
-          </Link>
-        </h1>
-      </div>
+            <button
+              type="submit"
+              className="block mx-auto w-24 mt-8 px-3.5 py-2.5 text-center text-sm font-semibold text-black rounded-md shadow-sm hover:bg-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
+              style={{ backgroundColor: "#6BD3C6" }}
+            >
+              Login
+            </button>
+          </form>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              paddingTop: "50px",
+              //color: "#6BD3C6",
+            }}
+          >
+            <h1>
+              Already have an account?{" "}
+              <Link href="/pages/register">
+                <u className="hover:text-teal-300">Register now.</u>
+              </Link>
+            </h1>
+          </div>
+        </>
+      )}
       <InfoModal
         isOpen={isInfoModalOpen}
         setOpen={setIsInfoModalOpen}

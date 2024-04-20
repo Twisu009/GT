@@ -54,7 +54,7 @@ export async function getManyWishlistUser(dto: IWishlistUserQuery) {
     },
     where: {
       game: {
-        Title: { contains: value },
+        Title: { contains: value, mode: "insensitive" },
       },
       UserID: userId,
       GameID: {
@@ -65,7 +65,10 @@ export async function getManyWishlistUser(dto: IWishlistUserQuery) {
   let total = await prisma.wishlist.count({
     where: {
       game: {
-        Title: { contains: value },
+        Title: {
+          contains: value,
+          mode: "insensitive",
+        },
       },
       UserID: userId,
       GameID: {

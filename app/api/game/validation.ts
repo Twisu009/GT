@@ -6,6 +6,7 @@ export const CreateGameSchema = z.object({
   releaseDate: z.coerce.date(),
   userId: z.number(),
   genres: z.array(z.number()),
+  mediaUrl: z.string().optional().default(""),
 });
 
 export type ICreateGame = z.infer<typeof CreateGameSchema>;
@@ -21,3 +22,21 @@ export const GameQuerySchema = QueryDtoSchema.extend({
   userIds: z.array(z.coerce.number()).optional(),
 });
 export type IGameQuery = z.infer<typeof GameQuerySchema>;
+
+export const CreateGameRatingSchema = z.object({
+  userId: z.number(),
+  gameId: z.number(),
+  rating: z.number().min(0).max(10),
+});
+export type IGameRating = z.infer<typeof CreateGameRatingSchema>;
+
+export const GameRatingQuerySchema = QueryDtoSchema.extend({
+  gameIds: z.array(z.coerce.number()).optional(),
+});
+export type IGameRatingQuery = z.infer<typeof GameRatingQuerySchema>;
+
+export const GameRatingUserSchema = z.object({
+  gameId: z.coerce.number(),
+  userId: z.coerce.number(),
+});
+export type IGameRatingUserSchema = z.infer<typeof GameRatingUserSchema>;
