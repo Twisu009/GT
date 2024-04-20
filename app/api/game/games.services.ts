@@ -4,6 +4,7 @@ import {
   IGameQuery,
   IGameRating,
   IGameRatingQuery,
+  IGameRatingUserSchema,
   IUpdateGame,
 } from "./validation";
 import { CustomError, NotFoundError } from "@/backend/error/error";
@@ -78,7 +79,30 @@ export async function getManyGames(dto: IGameQuery) {
     total,
   };
 }
-
+export async function getNewReleasesGames() {
+  let prisma = getPrismaInstance();
+  let genres = await prisma.game.findMany({
+    take: 20,
+    include: {
+      GameGenre: {
+        include: {
+          genre: true,
+        },
+      },
+    },
+    where: {
+      ImageUrl: {
+        not: "",
+      },
+    },
+    orderBy: {
+      ReleaseDate: "desc",
+    },
+  });
+  return {
+    results: genres,
+  };
+}
 export async function createGame(dto: ICreateGame) {
   let prisma = getPrismaInstance();
   let game = await prisma.game.create({
@@ -158,6 +182,18 @@ export async function addGameRating(dto: IGameRating) {
       UserID: dto.userId,
     },
   });
+}
+
+export async function getGameRatingByUser(dto: IGameRatingUserSchema) {
+  let prisma = getPrismaInstance();
+  let rating = await prisma.gameRating.findFirst({
+    where: {
+      UserID: dto.userId,
+      GameID: dto.gameId,
+    },
+  });
+  if (!rating) throw new CustomError("No rating found", 400);
+  return rating;
 }
 
 export async function getGameRating(dto: IGameRatingQuery) {

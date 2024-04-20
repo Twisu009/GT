@@ -4,4 +4,23 @@
 
 * {
   transition: all ease-in-out 0.3s;
+  box-sizing: border-box;
+}
+
+/* Custom scrollbar styles */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px; /* Adjust height for horizontal scrollbar */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2.5px; /* Half of the scrollbar width/height */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

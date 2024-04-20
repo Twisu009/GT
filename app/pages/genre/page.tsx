@@ -1,5 +1,7 @@
 "use client";
 
+import LoadingUI from "@/components/loading/Loading";
+import { useLoading } from "@/components/loading/LoadingContext";
 import {
   FormControl,
   FormField,
@@ -8,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import ReusableGenreBox from "@/components/ui/genre-box";
 import { Input } from "@/components/ui/input";
+import { ReusableNewReleases } from "@/components/ui/new-releases";
 import { ReusableSearchFilter } from "@/components/ui/reusable-search-filter";
 import ReusableSpinner from "@/components/ui/spinner";
 import axios, { AxiosResponse } from "axios";
@@ -23,6 +26,7 @@ interface IGenreList {
   results: {
     GenreID: number;
     GenreName: string;
+    ImageUrl: string;
   }[];
   total: number;
 }
@@ -40,7 +44,7 @@ export default function Genre() {
   });
 
   const [isLoadMore, setIsLoadMore] = useState(false);
-  const [loading, setLoading] = useState(false); //spinner
+  const { loading, setLoading } = useLoading();
 
   const handleSearch = (query: FormValues) => {
     query.skip = 0;
@@ -59,25 +63,29 @@ export default function Genre() {
   };
 
   const callGenres = async (query: FormValues, isMore = false) => {
-    setLoading(true); //for spinner when loading starts
-    let genres: AxiosResponse<IGenreList> = await axios("/api/genre", {
-      params: query,
-    });
-    setLoading(false); //spinner wont show when genres are loaded
-    if (genres.data.total > query.skip + query.count) {
-      setIsLoadMore(true);
-    } else {
-      setIsLoadMore(false);
-    }
-    if (isMore) {
-      setGenreList((prev) => {
-        return {
-          results: [...prev.results, ...genres.data.results],
-          total: genres.data.total,
-        };
+    try {
+      setLoading(true);
+      let genres: AxiosResponse<IGenreList> = await axios("/api/genre", {
+        params: query,
       });
-    } else {
-      setGenreList(genres.data);
+      if (genres.data.total > query.skip + query.count) {
+        setIsLoadMore(true);
+      } else {
+        setIsLoadMore(false);
+      }
+      if (isMore) {
+        setGenreList((prev) => {
+          return {
+            results: [...prev.results, ...genres.data.results],
+            total: genres.data.total,
+          };
+        });
+      } else {
+        setGenreList(genres.data);
+      }
+    } catch (e) {
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -86,78 +94,85 @@ export default function Genre() {
   }, []);
 
   return (
-    <main className="flex-col justify-center items-center h-screen">
-      <div>
-        <ReusableSearchFilter onCustomSubmit={handleSearch} form={form}>
+    <>
+      {loading ? (
+        <LoadingUI />
+      ) : (
+        <main className="flex-col justify-center items-center h-screen">
           <div>
-            <FormField
-              control={form.control}
-              name="value"
-              render={({ field }) => (
-                <FormItem className="flex justify-center w-200">
-                  <FormControl>
-                    <Input
-                      placeholder="search genre..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
+            <div className=" flex justify-center gap-2 items-end mt-10 text-center text-2xl font-bold mb-8">
+              <div className="flex w-[150px] border-t-4  border-black my-4"></div>
+              <div className="flex gap-2 ">
+                <span style={{ color: "#071013" }}>Genre </span>
+                <span style={{ color: "#6bd3b6" }}>List</span>
+              </div>
+              <div className="flex w-[150px] border-t-4  border-black my-4"></div>
+            </div>
+            <ReusableSearchFilter onCustomSubmit={handleSearch} form={form}>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="value"
+                  render={({ field }) => (
+                    <FormItem className="flex justify-center w-200">
+                      <FormControl>
+                        <Input
+                          placeholder="search genre..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="skip"
-              render={({ field }) => <></>}
-            />
-            <FormField
-              control={form.control}
-              name="count"
-              render={({ field }) => <></>}
-            />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="skip"
+                  render={({ field }) => <></>}
+                />
+                <FormField
+                  control={form.control}
+                  name="count"
+                  render={({ field }) => <></>}
+                />
+              </div>
+            </ReusableSearchFilter>
           </div>
-        </ReusableSearchFilter>
-      </div>
 
-      {/* Spinner */}
-      {loading && (
-        <div className="mt-40 relative flex justify-center items-center">
-          {loading && <ReusableSpinner />}
-        </div>
+          {/* Genre boxes section */}
+          <div className="container mx-auto mt-14">
+            <div className="flex flex-wrap justify-center">
+              {/* Renders GenreBox component for each genre */}
+              {genreList.results.map((value) => (
+                <ReusableNewReleases
+                  key={value.GenreID}
+                  NewReleasescardLink={`/pages/genre/${value.GenreID}`}
+                  text={value.GenreName}
+                  imageSrc={value.ImageUrl}
+                />
+              ))}
+            </div>
+          </div>
+          <br></br>
+          <div className="flex justify-center text-center items-center container mx-auto">
+            Total Available:{genreList.total}
+          </div>
+          <br></br>
+          <div className="flex justify-center">
+            {isLoadMore && (
+              <button
+                className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:text-custom-teal hover:border-custom-blue-green flex items-center"
+                onClick={loadMore}
+              >
+                Load more...
+              </button>
+            )}
+          </div>
+          <br></br>
+        </main>
       )}
-
-      {/* Genre boxes section */}
-      <div className="container mx-auto mt-14">
-        <div className="flex flex-wrap justify-center">
-          {/* Renders GenreBox component for each genre */}
-          {genreList.results.map((value) => (
-            <ReusableGenreBox
-              key={value.GenreID}
-              id={value.GenreID}
-              genre={value.GenreName}
-              imageSrc={""}
-            />
-          ))}
-        </div>
-      </div>
-      <br></br>
-      <div className="flex justify-center text-center items-center container mx-auto">
-        Total Available:{genreList.total}
-      </div>
-      <br></br>
-      <div className="flex justify-center">
-        {isLoadMore && (
-          <button
-            className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:text-custom-teal hover:border-custom-blue-green flex items-center"
-            onClick={loadMore}
-          >
-            Load more...
-          </button>
-        )}
-      </div>
-      <br></br>
-    </main>
+    </>
   );
 }

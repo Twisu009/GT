@@ -34,3 +34,9 @@ export const GameRatingQuerySchema = QueryDtoSchema.extend({
   gameIds: z.array(z.coerce.number()).optional(),
 });
 export type IGameRatingQuery = z.infer<typeof GameRatingQuerySchema>;
+
+export const GameRatingUserSchema = z.object({
+  gameId: z.coerce.number(),
+  userId: z.coerce.number(),
+});
+export type IGameRatingUserSchema = z.infer<typeof GameRatingUserSchema>;

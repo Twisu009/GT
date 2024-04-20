@@ -7,6 +7,7 @@ import {
   post_comments_by_game,
 } from "./comments.services";
 import { Input } from "../ui/input";
+import { UserDetails, get_users } from "../user/user.services";
 import { GameProps } from "@/components/comment/comments.services";
 import ReusableSpinner from "../ui/spinner";
 
@@ -15,29 +16,39 @@ const GameComments = ({ gameId }: GameProps) => {
   let [skip, setSkip] = useState(0);
   let [total, setTotal] = useState(10);
   let [comments, setComments] = useState<CommentType[]>([]);
+  let [users, setUsers] = useState<UserDetails[]>([]);
   let [loading, setLoading] = useState(false);
   let [text, setText] = useState("");
 
   useEffect(() => {
-    getInitialComments();
+    getInitialDetails();
   }, []);
 
-  const getInitialComments = async () => {
-    let response = await get_comments_by_game({
+  const getInitialDetails = async () => {
+    let commentResponse = await get_comments_by_game({
       gameId,
       skip,
       count: 10,
       parentId: null,
     });
-    setComments(response.results);
-    setTotal(response.total);
+    let userIds = [...new Set(commentResponse.results.map((c) => c.UserID))];
+
+    if (userIds.length > 0) {
+      let userResponse = await get_users({
+        skip: 0,
+        count: userIds.length,
+        userIds,
+      });
+      setUsers(userResponse.results);
+    }
+    setComments(commentResponse.results);
+    setTotal(commentResponse.total);
     setLoading(false);
   };
 
   const loadMoreComments = async () => {
     if (total > skip + 10) {
       setLoading(true);
-
       let response = await get_comments_by_game({
         gameId,
         skip: skip + 10,
@@ -48,6 +59,17 @@ const GameComments = ({ gameId }: GameProps) => {
         ...comments,
         ...response.results,
       ]);
+
+      let userIds = [...new Set(uniqueComments.map((c) => c.UserID))];
+
+      if (userIds.length > 0) {
+        let userResponse = await get_users({
+          skip: 0,
+          count: userIds.length,
+          userIds,
+        });
+        setUsers((prev) => [...prev, ...userResponse.results]);
+      }
       setComments(uniqueComments);
       setSkip(skip + 10);
       setLoading(false);
@@ -84,34 +106,35 @@ const GameComments = ({ gameId }: GameProps) => {
   };
 
   return (
-    <div className="w-auto bg-white rounded-lg border p-2 my-10 mx-80">
-      <h3 className="font-bold">Discussion</h3>
-      {loading && <ReusableSpinner />}
-      <div className="mt-10 flex flex-col">
-        <Input
-          type="text"
-          placeholder="Leave a comment..."
-          value={text}
-          onChange={(v) => setText(v.target.value)}
-          onKeyPress={(event) => {
-            if (event.key === "Enter") {
-              pushComment();
-            }
-          }}
-          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:border-transparent"
-        />
+    <div
+      style={{
+        height: "500px",
+      }}
+      className="flex flex-col justify-center items-center w-full  "
+    >
+      {loading && <div className="mt-4">Loading..... please wait</div>}
 
-        <div className="flex justify-center">
+      <div className="flex flex-col w-full max-w-md p-4 bg-white rounded-lg shadow-lg overflow-y-scroll overflow-x-hidden">
+        <div className="flex w-full pb-3">
+          <Input
+            type="text"
+            placeholder="Leave a comment..."
+            value={text}
+            onChange={(v) => setText(v.target.value)}
+            onKeyPress={(event) => {
+              if (event.key === "Enter") {
+                pushComment();
+              }
+            }}
+            className="flex-2 h-7 border w-full p-1 rounded-l-full"
+          />
           <button
-            className="mt-2 px-4 py-3 bg-custom-blue-green text-custom-teal font-semibold py-2 px-4 border border-custom-blue-green rounded transition-colors duration-300 hover:bg-transparent hover:text-custom-blue-green hover:border-custom-teal"
+            className="flex-1 bg-custom-teal h-full text-custom-blue-green pl-1 pr-1 hover:text-custom-teal hover:bg-transparent w-full rounded-r-full font-semibold"
             onClick={pushComment}
           >
-            Post
+            Comment
           </button>
         </div>
-      </div>
-
-      <div className="mt-8">
         {comments.map((c) => {
           return (
             <div
@@ -122,6 +145,11 @@ const GameComments = ({ gameId }: GameProps) => {
                 <div className="flex-shrink-0">
                   <div className="h-8 w-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-600 font-bold">
                     {c.UserID}
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <div className="text-sm text-gray-500 ml-1 flex-grow ">
+                    {users.find((u) => u.UserID === c.UserID)?.Username ?? ""}
                   </div>
                 </div>
                 <div className="flex w-full justify-end">
@@ -141,18 +169,15 @@ const GameComments = ({ gameId }: GameProps) => {
             </div>
           );
         })}
-      </div>
-
-      {total > skip + 10 && (
-        <div className="mt-4">
+        {total > skip + 10 && (
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:text-custom-teal hover:border-custom-blue-green flex items-center"
             onClick={loadMoreComments}
           >
-            Load More Comments
+            Load More...
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

@@ -18,9 +18,6 @@ export const getManyUsers = async (dto: IUserQuery) => {
     },
   });
   let total = await prisma.user.count({
-    skip,
-    take: count,
-
     where: {
       Username: {
         contains: value,

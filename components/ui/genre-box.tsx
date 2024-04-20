@@ -23,17 +23,9 @@ const ReusableGenreBox: React.FC<GenreBoxProps> = ({ id, genre, imageSrc }) => {
           <CardMedia
             component="img"
             height="140"
-            image="/static/images/reindeer.png"
-            // image={imageSrc}
+            image={imageSrc}
             alt="genre"
           />
-          {/* Box container with padding */}
-          {/* <a
-                        href={`/${genre.toLowerCase()}`}
-                        className="text-gray-700 font-semibold"
-                    >
-                        {genre}
-                    </a> */}
           <CardContent className="text-center">
             <Typography gutterBottom variant="h6" component="div">
               {genre}

@@ -10,8 +10,13 @@ export interface GameFormProps {
   title: string;
   description: string;
   releaseDate: string;
-  imageUrl: string;
+  mediaUrl: string;
+  genres: number[];
+  genreList: {
+    GenreID: number;
+    GenreName: string;
+    ImageUrl: string | null;
+  }[];
   onInputChange: (name: string, value: string) => void;
-  onImageUpload: (imageData: Blob) => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 }

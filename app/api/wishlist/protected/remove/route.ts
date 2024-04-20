@@ -5,14 +5,14 @@ import { RemoveWishListSchema } from "../../validation";
 import { removeWishlist } from "../../wishlist.service";
 
 export async function POST(req: NextRequest) {
-  try {
-    let user = getUserAuthData(req);
-    const data = await req.json();
-    data.userId = user.userId;
-    let verifiedData = RemoveWishListSchema.parse(data);
-    let wishlist = await removeWishlist(verifiedData);
-    return NextResponse.json({ wishlist });
-  } catch (error) {
-    return handleError(error);
-  }
+    try {
+        let user = getUserAuthData(req);
+        const data = await req.json();
+        data.userId = user.userId;
+        let verifiedData = RemoveWishListSchema.parse(data);
+        let wishlist = await removeWishlist(verifiedData);
+        return NextResponse.json({ wishlist });
+    } catch (error) {
+        return handleError(error);
+    }
 }

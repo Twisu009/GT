@@ -8,9 +8,9 @@ interface SpinnerProps {
 }
 
 const ReusableSpinner: React.FC<SpinnerProps> = ({
-  size = 30,
+  size = 28,
   borderWidth = 4,
-  borderColor = "custom-blue-green",
+  borderColor = "teal-950",
 }) => {
   const [spinnerColor, setSpinnerColor] = useState(borderColor);
 
@@ -18,7 +18,7 @@ const ReusableSpinner: React.FC<SpinnerProps> = ({
     // Update border color dynamically
     const interval = setInterval(() => {
       setSpinnerColor((prevColor) =>
-        prevColor === borderColor ? "custom-teal" : borderColor
+        prevColor === borderColor ? "teal-300" : borderColor
       );
     }, 200); // Change color every 0.2 seconds
     return () => clearInterval(interval);

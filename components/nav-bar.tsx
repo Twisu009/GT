@@ -1,43 +1,47 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
-import WishlistPopup from "./ui/wishlist";
-import axios from "axios";
 import { InfoModal } from "./ui/info-modal";
+import Link from "next/link";
+import {
+  getUserDetailsInLocalStorage,
+  removeUserFromLocalStorage,
+} from "@/utilities/local-storage";
+import { useIsFirstRender } from "@/utilities/useFirstRender";
 
 const Navbar = () => {
+  const userDetails = getUserDetailsInLocalStorage();
+  const isFirstRender = useIsFirstRender();
   const [isClick, setisClick] = useState(false);
-  //wishlist
-  const [showWishlist, setShowWishlist] = useState(false);
-  const [userId, setUserId] = useState<number | null>(null);
-  //alert
-  const [showLoginAlert, setShowLoginAlert] = useState(false);
-
-  // Function to toggle wishlist visibility
-  const toggleWishlist = () => {
-    setShowWishlist(!showWishlist); // manages wishlist popup visibility
-  };
-
+  const [avatarModal, setAvatarModal] = useState(false);
   const toggleNavbar = () => {
     setisClick(!isClick);
   };
+  const handleLogout = () => {
+    removeUserFromLocalStorage();
+  };
+  if (isFirstRender) return null;
 
   return (
     <>
-      <nav className="bg-purewhite-500 pt-10 pb-5">
+      <nav className="bg-purewhite-500 pt-5 pb-5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo on the left */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <a href="/" className="text-black">
-                Logo
+                <img
+                  className="w-40 h-auto"
+                  src="/static/images/gtrove-logo.png"
+                  alt="gtrove logo"
+                />
               </a>
             </div>
           </div>
 
           {/* Navbar content in the center */}
-          <div className="hidden md:flex flex-grow justify-center">
+          <div className="flex justify-center hidden md:flex flex-grow mr-28 ">
             <div className="ml-4 flex items-center space-x-4">
               <a
                 href="/"
@@ -53,38 +57,9 @@ const Navbar = () => {
                 >
                   Genres
                 </a>
-                {/* Dropdown content
-                {isClick && (
-                  <div className="absolute mt-2 w-32 bg-white shadow-lg rounded-lg">
-                    <a
-                      href="/pages/genre/action"
-                      className="block py-2 px-4 text-gray-800 hover:bg-gray-300"
-                    >
-                      Action
-                    </a>
-                    <a
-                      href="/pages/genre/horror"
-                      className="block py-2 px-4 text-gray-800 hover:bg-gray-300"
-                    >
-                      Horror
-                    </a>
-                    <a
-                      href="/pages/genre/adventure"
-                      className="block py-2 px-4 text-gray-800 hover:bg-gray-300"
-                    >
-                      Adventure
-                    </a>
-                    <a
-                      href="/pages/genre/multiplayer"
-                      className="block py-2 px-4 text-gray-800 hover:bg-gray-300"
-                    >
-                      Multiplayer
-                    </a>
-                  </div>
-                )} */}
               </div>
               <a
-                href="/pages/developer-content"
+                href="/pages/user"
                 className="text-black hover:bg-grey hover:text-black rounded-lg"
               >
                 Developer Content
@@ -98,30 +73,70 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Wishlist icon and button on the right*/}
-          <div className="text-black hover:bg-grey hover:text-black rounded-lg">
-            <button
-              className="bg-transparent text-teal-950 font-semibold py-2 px-4 transition-colors duration-300 hover:text-teal-400"
-              onClick={toggleWishlist}
+          {userDetails && (
+            <div
+              className="flex justify-center p-2 items-center text-black rounded-full bg-gray-300 hover:bg-black hover:text-white hover:cursor-pointer "
+              onClick={() => setAvatarModal(!avatarModal)}
             >
-              <FaRegHeart style={{ fontSize: "1.75rem" }} />
-            </button>
-          </div>
+              {userDetails.Username.slice(0, 3)}
+            </div>
+          )}
+          {avatarModal && (
+            <div
+              className="origin-top-right absolute z-50 right-8 mt-32 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="options-menu"
+              onClick={() => setAvatarModal(!avatarModal)}
+            >
+              <div className="py-1" role="none">
+                <Link
+                  href="/pages/user/wishlist"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  role="menuitem"
+                >
+                  <div className="flex justify-center items-center">
+                    <div className="pr-2">Wishlist</div>{" "}
+                    <FaRegHeart style={{ fontSize: "1rem" }} />
+                  </div>
+                </Link>
+                <Link
+                  href="/pages/user/games"
+                  className="flex justify-center items-center block px-4 py-2 text-sm text-green-700 hover:bg-green-100 hover:text-green-900"
+                  role="menuitem"
+                >
+                  My Games
+                </Link>
+                <Link
+                  href="/pages/login"
+                  className="flex justify-center items-center block px-4 py-2 text-sm text-red-700 hover:bg-red-100 hover:text-red-900"
+                  role="menuitem"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Link>
+              </div>
+            </div>
+          )}
 
-          {/* Wishlist popup */}
-          {showWishlist && userId && <WishlistPopup userId={userId} />}
-
-          {/* Login alert dialog */}
-          <InfoModal
-            title="Login Required"
-            message="You need to be logged in to access this feature."
-            isOpen={showLoginAlert}
-            setOpen={setShowLoginAlert}
-            onOk={() => {
-              window.location.href = "/pages/login";
-            }}
-          />
-
+          {!userDetails && (
+            <div className="flex justify-center gap-1">
+              <Link
+                className="py-1 px-3 rounded-2xl hover:bg-black hover:text-white"
+                href="/pages/login"
+              >
+                Login
+              </Link>
+              <label className="pt-1 pb-1 pl-3 pr-3"> | </label>
+              <Link
+                className="pt-1 pb-1 pl-3 pr-3 rounded-2xl hover:bg-black hover:text-white"
+                href="/pages/register"
+                style={{ color: "#6BD3C6" }}
+              >
+                Register
+              </Link>
+            </div>
+          )}
           {/* Toggle button for mobile */}
           <div className="md:hidden flex items-center">
             <button
@@ -195,50 +210,5 @@ const Navbar = () => {
     </>
   );
 };
-
-// export default function Navbar() {
-//   return (
-//     <nav className="flex items-center justify-between py-4 max-w-5xl mx-auto">
-//       {/* Logo */}
-//       <Image
-//         src={"/static/images/gtrove-logo.png"}
-//         alt="G-Trove logo"
-//         width={150}
-//         height={150}
-//         quality={100}
-//       />
-
-//       {/* Navigation Links */}
-//       <div className="hidden md:flex gap-5">
-//         {" "}
-//         {/* Hide on small screens */}
-//         <Link href={"/"}>Home</Link>
-//         <Link href={"/pages/genre"}>Genre</Link>
-//         <Link href={"/developer-content"}>Developer Content</Link>
-//         <Link href={"/pages/AboutUs"}>About Us</Link>
-//         <Link href={"/wishlist"}></Link>
-//       </div>
-
-//       {/* Search Box */}
-//       <div className="relative flex items-right gap-3">
-//         <input
-//           type="text"
-//           placeholder="Search.."
-//           className="border rounded-full bg-gray-200 px-3 py-2 w-25 pl-12"
-//         />
-//         <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
-//           {/* Search Icon */}
-//           <FontAwesomeIcon icon={faSearch} className="h-5 w-5" />
-//         </span>
-//       </div>
-
-//       {/* Heart Icon */}
-//       <FontAwesomeIcon
-//         icon={faHeart}
-//         className="text-gray-300 hover:text-cyan-300 cursor-pointer h-5 w-5 md:block hidden"
-//       />
-//     </nav>
-//   );
-// }
 
 export default Navbar;
