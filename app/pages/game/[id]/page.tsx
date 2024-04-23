@@ -7,7 +7,6 @@ import { UserDetails, get_users } from "@/components/user/user.services";
 import { getRequest, postRequest } from "@/utilities/https";
 import { getUserDetailsInLocalStorage } from "@/utilities/local-storage";
 import { Rating, Typography } from "@mui/material";
-import { truncate } from "fs/promises";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -247,7 +246,7 @@ export default function Page() {
                     precision={0.5}
                     readOnly={true}
                     name="simple-controlled"
-                    value={rating.user}
+                    value={rating.total}
                   />
                 </div>
                 <div className="flex w-full gap-3 justify-center items-center">

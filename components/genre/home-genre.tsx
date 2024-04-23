@@ -5,7 +5,6 @@ import { get_all_genres } from "./genre.services";
 import Link from "next/link";
 import { ReusableCard } from "../ui/card";
 import LoadingUI from "../loading/Loading";
-import { useLoading } from "../loading/LoadingContext";
 const HomeGenre = () => {
   const [genreList, setGenreList] = useState<Genre[]>([]);
   const [loading, setLoading] = useState(true);

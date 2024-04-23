@@ -4,7 +4,6 @@ import Link from "next/link";
 import developer from "../public/static/images/developer.png";
 import ReusableBanner from "@/components/ui/banner-main";
 import NewReleases from "@/components/new-releases/new-releases";
-import axios from "axios";
 
 import HomeGenre from "@/components/genre/home-genre";
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import ReusableSpinner from "@/components/ui/spinner";
 import ReusableUploadForm from "@/components/ui/upload-form";
 import { NextPage } from "next";

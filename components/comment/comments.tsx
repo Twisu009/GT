@@ -9,7 +9,6 @@ import {
 import { Input } from "../ui/input";
 import { UserDetails, get_users } from "../user/user.services";
 import { GameProps } from "@/components/comment/comments.services";
-import ReusableSpinner from "../ui/spinner";
 
 const GameComments = ({ gameId }: GameProps) => {
   let user = getUserDetailsInLocalStorage();

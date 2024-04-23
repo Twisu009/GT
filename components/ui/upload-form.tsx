@@ -1,9 +1,8 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { GameFormProps } from "@/app/types/type";
 import { MenuItem, Select } from "@mui/material";
-import { get_all_genres } from "../genre/genre.services";
 import { useLoading } from "../loading/LoadingContext";
 
 const ReusableUploadForm: React.FC<GameFormProps> = ({

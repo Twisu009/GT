@@ -8,11 +8,9 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import ReusableGenreBox from "@/components/ui/genre-box";
 import { Input } from "@/components/ui/input";
 import { ReusableNewReleases } from "@/components/ui/new-releases";
 import { ReusableSearchFilter } from "@/components/ui/reusable-search-filter";
-import ReusableSpinner from "@/components/ui/spinner";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
