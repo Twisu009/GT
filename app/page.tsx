@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import developer from "../public/static/images/developer.png";
+import DevW from "../public/static/images/DevW.png";
 import ReusableBanner from "@/components/ui/banner-main";
 import NewReleases from "@/components/new-releases/new-releases";
 
@@ -39,19 +39,19 @@ export default function Home() {
       <NewReleases />
 
       {/*Developer content section*/}
-      <div>
+      <div className="bg-slate-100">
         <section title="Developer Contents">
           <div className="flex flex-col  md:flex-row justify-center mt-20 ">
             {/* Developer Image */}
-            <div className="flex flex-1 ml-20 justify-center md:justify-end  ">
+            <div className="flex flex-1 ml-20 justify-center md:justify-end mr-10 mb-16  ">
               <img
-                src={developer.src}
+                src={DevW.src}
                 alt="Developer Image"
-                className="h-[700px] w-[720px]"
+                className="h-[500px] w-[520px]"
               />
             </div>
             {/* Text and Button */}
-            <div className="mb-10 flex-1 flex flex-col justify-center">
+            <div className="mb-10 flex-1 flex flex-col justify-center m-10">
               <div className="flex gap-2 items-end text-left text-2xl font-bold mb-4">
                 <div className="flex">
                   <span style={{ color: "#071013", marginRight: 2 }}>Our </span>
@@ -64,7 +64,7 @@ export default function Home() {
                 developers. Visit now for an exciting experience!"
               </p>
               <div className="flex justify-left">
-                <Link href="/pages/developer-content">
+                <Link href="/pages/user">
                   <button className="bg-custom-blue-green text-slate-100 font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:bg-transparent hover:text-custom-blue-green hover:border-custom-teal">
                     Visit
                   </button>

@@ -1,5 +1,6 @@
 "use client";
 
+import { get_all_genres, get_genres } from "@/components/genre/genre.services";
 import LoadingUI from "@/components/loading/Loading";
 import { useLoading } from "@/components/loading/LoadingContext";
 import {
@@ -21,145 +22,102 @@ interface FormValues {
   count: number;
 }
 interface IGenreList {
-  results: {
-    GenreID: number;
-    GenreName: string;
-    ImageUrl: string;
-  }[];
-  total: number;
+  GenreID: number;
+  GenreName: string;
+  ImageUrl: string | null;
 }
 export default function Genre() {
-  const form = useForm<FormValues>({
-    defaultValues: {
-      value: "",
-      skip: 0,
-      count: 10,
-    },
-  });
-  const [genreList, setGenreList] = useState<IGenreList>({
-    results: [],
-    total: 0,
-  });
-
-  const [isLoadMore, setIsLoadMore] = useState(false);
+  const [genreList, setGenreList] = useState<IGenreList[]>([]);
+  const [skip, setSkip] = useState(0);
+  const [total, setTotal] = useState(10);
   const { loading, setLoading } = useLoading();
+  const [search, setSearch] = useState("");
 
-  const handleSearch = (query: FormValues) => {
-    query.skip = 0;
-    query.count = 10;
-    form.setValue("skip", 0);
-    form.setValue("count", 10);
-    callGenres(query);
-  };
-  const loadMore = () => {
-    let values = form.getValues();
-    values.skip += 10;
-    values.count += 10;
-    form.setValue("skip", values.skip);
-    form.setValue("count", values.count);
-    callGenres(values, true);
-  };
+  useEffect(() => {
+    initial();
+  }, []);
 
-  const callGenres = async (query: FormValues, isMore = false) => {
+  const initial = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      let genres: AxiosResponse<IGenreList> = await axios("/api/genre", {
-        params: query,
+      const response = await get_genres({
+        skip: 0,
+        count: 10,
+        value: search,
       });
-      if (genres.data.total > query.skip + query.count) {
-        setIsLoadMore(true);
-      } else {
-        setIsLoadMore(false);
-      }
-      if (isMore) {
-        setGenreList((prev) => {
-          return {
-            results: [...prev.results, ...genres.data.results],
-            total: genres.data.total,
-          };
-        });
-      } else {
-        setGenreList(genres.data);
-      }
+      setGenreList(response.results);
+      setSkip(0);
+      setTotal(response.total);
     } catch (e) {
     } finally {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    let query = form.getValues();
-    callGenres(query);
-  }, []);
+
+  const loadMore = async () => {
+    setLoading(true);
+    try {
+      const response = await get_genres({
+        skip: skip + 10,
+        count: 10,
+        value: search,
+      });
+      setSkip(skip + 10);
+      setGenreList((prev) => [...prev, ...response.results]);
+    } catch (e) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       {loading ? (
         <LoadingUI />
       ) : (
-        <main className="flex-col justify-center items-center h-screen">
-          <div>
-            <div className=" flex justify-center gap-2 items-end mt-10 text-center text-2xl font-bold mb-8">
-              <div className="flex w-[150px] border-t-4  border-black my-4"></div>
-              <div className="flex gap-2 ">
-                <span style={{ color: "#071013" }}>Genre </span>
-                <span style={{ color: "#6bd3b6" }}>List</span>
-              </div>
-              <div className="flex w-[150px] border-t-4  border-black my-4"></div>
+        <div className="flex flex-col justify-center items-center w-full">
+          <div className=" flex justify-center gap-2 items-end mt-10 text-center text-2xl font-bold mb-8">
+            <div className="flex w-[150px] border-t-4  border-black my-4"></div>
+            <div className="flex gap-2 ">
+              <span style={{ color: "#071013" }}>Genre </span>
+              <span style={{ color: "#6bd3b6" }}>List</span>
             </div>
-            <ReusableSearchFilter onCustomSubmit={handleSearch} form={form}>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="value"
-                  render={({ field }) => (
-                    <FormItem className="flex justify-center w-200">
-                      <FormControl>
-                        <Input
-                          placeholder="search genre..."
-                          {...field}
-                          className="w-full"
-                        />
-                      </FormControl>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="skip"
-                  render={({ field }) => <></>}
-                />
-                <FormField
-                  control={form.control}
-                  name="count"
-                  render={({ field }) => <></>}
-                />
-              </div>
-            </ReusableSearchFilter>
+            <div className="flex w-[150px] border-t-4  border-black my-4"></div>
           </div>
+          <input
+            type="text"
+            value={search}
+            className="px-4 py-2 mb-8 mt-10 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                initial();
+              }
+            }}
+            placeholder="Enter to search..."
+          />
 
           {/* Genre boxes section */}
           <div className="container mx-auto mt-14">
             <div className="flex flex-wrap justify-center">
               {/* Renders GenreBox component for each genre */}
-              {genreList.results.map((value) => (
+              {genreList.map((value) => (
                 <ReusableNewReleases
                   key={value.GenreID}
                   NewReleasescardLink={`/pages/genre/${value.GenreID}`}
                   text={value.GenreName}
-                  imageSrc={value.ImageUrl}
+                  imageSrc={value.ImageUrl ?? ""}
                 />
               ))}
             </div>
           </div>
           <br></br>
           <div className="flex justify-center text-center items-center container mx-auto">
-            Total Available:{genreList.total}
+            Total Available:{total}
           </div>
           <br></br>
           <div className="flex justify-center">
-            {isLoadMore && (
+            {total > genreList.length && (
               <button
                 className="bg-transparent text-custom-blue-green font-semibold py-2 px-4 border rounded transition-colors duration-300 hover:text-custom-teal hover:border-custom-blue-green flex items-center"
                 onClick={loadMore}
@@ -169,7 +127,7 @@ export default function Genre() {
             )}
           </div>
           <br></br>
-        </main>
+        </div>
       )}
     </>
   );

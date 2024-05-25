@@ -28,13 +28,12 @@ export default function AboutUs() {
           </div>
           <div className="md:w-1/2 relative">
             <Image
-              src={"/static/images/banner.png"}
+              src={"/static/images/AboutBG.png"}
               alt="About Us"
               className="rounded-lg shadow-lg"
               width={500}
               height={500}
             />
-
             <div className="absolute bottom-0 right-0 mb-4 mr-4"></div>
           </div>
         </div>

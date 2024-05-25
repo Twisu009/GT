@@ -41,41 +41,32 @@ const Navbar = () => {
           </div>
 
           {/* Navbar content in the center */}
-          <div className="flex justify-center hidden md:flex flex-grow mr-28 ">
+          <div className="flex justify-center hidden md:flex flex-grow mr-28">
             <div className="ml-4 flex items-center space-x-4">
-              <a
-                href="/"
-                className="text-black hover:bg-grey hover:text-black rounded-lg"
-              >
+              <a href="/" className="text-black relative group">
                 Home
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-custom-teal transition-all duration-300 group-hover:w-full"></span>
               </a>
-
               <div className="relative">
-                <a
-                  href="/pages/genre"
-                  className="text-black hover:bg-grey hover:text-black rounded-lg"
-                >
+                <a href="/pages/genre" className="text-black relative group">
                   Genres
+                  <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-custom-teal transition-all duration-300 group-hover:w-full"></span>
                 </a>
               </div>
-              <a
-                href="/pages/user"
-                className="text-black hover:bg-grey hover:text-black rounded-lg"
-              >
+              <a href="/pages/user" className="text-black relative group">
                 Developer Content
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-custom-teal transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a
-                href="/pages/AboutUs"
-                className="text-black hover:bg-grey hover:text-black rounded-lg"
-              >
+              <a href="/pages/AboutUs" className="text-black relative group">
                 About Us
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-custom-teal transition-all duration-300 group-hover:w-full"></span>
               </a>
             </div>
           </div>
 
           {userDetails && (
             <div
-              className="flex justify-center p-2 items-center text-black rounded-full bg-gray-300 hover:bg-black hover:text-white hover:cursor-pointer "
+              className="flex justify-center p-2 items-center text-black rounded-full bg-gray-300 hover:bg-black hover:text-white hover:cursor-pointer"
               onClick={() => setAvatarModal(!avatarModal)}
             >
               {userDetails.Username.slice(0, 3)}
@@ -96,7 +87,7 @@ const Navbar = () => {
                   role="menuitem"
                 >
                   <div className="flex justify-center items-center">
-                    <div className="pr-2">Wishlist</div>{" "}
+                    <div className="pr-2">Wishlist</div>
                     <FaRegHeart style={{ fontSize: "1rem" }} />
                   </div>
                 </Link>
@@ -122,14 +113,14 @@ const Navbar = () => {
           {!userDetails && (
             <div className="flex justify-center gap-1">
               <Link
-                className="py-1 px-3 rounded-2xl hover:bg-black hover:text-white"
+                className="py-1 px-3 rounded-2xl hover:bg-custom-teal hover:text-custom-blue-green hover:underline"
                 href="/pages/login"
               >
                 Login
               </Link>
               <label className="pt-1 pb-1 pl-3 pr-3"> | </label>
               <Link
-                className="pt-1 pb-1 pl-3 pr-3 rounded-2xl hover:bg-black hover:text-white"
+                className="pt-1 pb-1 pl-3 pr-3 rounded-2xl hover:bg-custom-blue-green hover:text-white hover:underline"
                 href="/pages/register"
                 style={{ color: "#6BD3C6" }}
               >
@@ -181,25 +172,25 @@ const Navbar = () => {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <a
                 href="/"
-                className="text-black block hover:bg-grey hover:text-black rounded-lg"
+                className="text-black block hover:underline hover:bg-grey hover:text-black rounded-lg"
               >
                 Home
               </a>
               <a
                 href="/pages/genre"
-                className="text-black block hover:bg-grey hover:text-black rounded-lg"
+                className="text-black block hover:underline hover:bg-grey hover:text-black rounded-lg"
               >
                 Genres
               </a>
               <a
                 href="/developer-content"
-                className="text-black block hover:bg-grey hover:text-black rounded-lg"
+                className="text-black block hover:underline hover:bg-grey hover:text-black rounded-lg"
               >
                 Developer Content
               </a>
               <a
                 href="/pages/AboutUs"
-                className="text-black block hover:bg-grey hover:text-black rounded-lg"
+                className="text-black block hover:underline hover:bg-grey hover:text-black rounded-lg"
               >
                 About Us
               </a>

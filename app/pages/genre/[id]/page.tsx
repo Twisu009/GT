@@ -82,6 +82,7 @@ export default function GenreTemplate({ params }: { params: { id: number } }) {
           <div className="text-3xl p-4 text-black mb-10 ">
             {genre?.GenreName}
           </div>
+
           <input
             type="text"
             value={search}

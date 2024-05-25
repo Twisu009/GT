@@ -16,6 +16,22 @@ export const get_all_genres = async () => {
   }>(`/api/genre?` + queryUrl);
   return response.data;
 };
+export const get_genres = async (query: {
+  skip: number;
+  count: number;
+  value?: string;
+}) => {
+  let queryUrl = objectToQueryString(query);
+  let response = await getRequest<{
+    results: {
+      GenreID: number;
+      GenreName: string;
+      ImageUrl: string | null;
+    }[];
+    total: number;
+  }>(`/api/genre?` + queryUrl);
+  return response.data;
+};
 
 export const get_genre_by_id = async (id: number) => {
   let response = await getRequest<{
